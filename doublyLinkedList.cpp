@@ -1,38 +1,38 @@
 #include <iostream>
 using namespace std;
 class DoublyLinkedListNode {
-  public:
+  public: //node initialization
     DoublyLinkedListNode* prev;
     int data;
     DoublyLinkedListNode* next;
 
-    DoublyLinkedListNode () {
+    DoublyLinkedListNode () { //struct function for no data
       this->prev = NULL;
       this->data = NULL;
       this->next = NULL;
     }    
-    DoublyLinkedListNode (int Data) {
+    DoublyLinkedListNode (int Data) { //struct function for data
       this->prev = NULL;
       this->data = Data;
       this->next = NULL;
     }
 };
 class DoublyLinkedList {
-  public:
+  public: //linked list class initialization
     DoublyLinkedListNode* head;
 
-    DoublyLinkedList () {
+    DoublyLinkedList () { //struct function
       this->head = NULL;
     }
 
-    void Push (int Data) {
+    void Push (int Data) { //adds a node at the beginning of the list
       DoublyLinkedListNode* newNode = new DoublyLinkedListNode (Data);
       newNode->next = head;
       head->prev = newNode;
       head = newNode;
     }
 
-    void Append (int Data) {
+    void Append (int Data) { //adds a node at the end of the list
       DoublyLinkedListNode* newNode = new DoublyLinkedListNode (Data);
       if (head == NULL) {
         head = newNode;
@@ -46,38 +46,30 @@ class DoublyLinkedList {
       newNode->prev = currentNode;
     }
 
-    void Insert(int Data, int Index) {
-    DoublyLinkedListNode* newNode = new DoublyLinkedListNode (Data);
+    void Insert(int Data, int Index) { //adds a node to the list at a given index 
 
-      if (Index == 0) {
-        if (head == NULL) {
-          head = newNode;
-          return;
-        }
-        newNode->next = head;
-        head->prev = newNode;
-        head = newNode;
-        return;
+      if (Index == 0) { //if index == 0 -> calls push function
+        Push(Data);
       }
+
+      DoublyLinkedListNode* newNode = new DoublyLinkedListNode (Data);
+
       DoublyLinkedListNode* currentNode = head;
       int currentIndex = 0;
-      while (currentNode->next != NULL) {
-        cout << currentNode->data <<  currentNode->next  << " " << currentIndex << endl;
-        if (currentIndex = Index - 1) {
-          cout << currentNode->data << endl;
+      while (currentNode->next != NULL) { //loops through list until end or given index
+        if (currentIndex == Index - 1) { //checks if index of next is the desired index
           newNode->next = currentNode->next;
           (currentNode->next)->prev = newNode;
-          newNode->prev = currentNode;
+          newNode->prev = currentNode; //connects the nodes so the new node is in between
           currentNode->next = newNode;
           return;
         }
-        currentNode = currentNode->next;
+        currentNode = currentNode->next; //increment
         currentIndex++;
       }
-      cout << currentNode->data << currentNode->next << endl;
 
       if (currentIndex == Index - 1) {
-        currentNode->next = newNode;
+        currentNode->next = newNode; //if list reaches end, and the desired index is the one after the last current item -> node appended
         newNode->prev = currentNode;
       }
     }
@@ -108,14 +100,57 @@ class DoublyLinkedList {
       }
     }
 
+    int GetItem(int Index) { //returns the data at a given index
+      if (Index == 0) { //returns the head if index is 0 before initializing the function
+        return head->data;
+      }
+
+      DoublyLinkedListNode* currentNode = head;
+      int currentIndex = 0; //initializes the variables for the function
+
+
+      while (currentNode->next != NULL) { //loops through the nodes 
+        if (currentIndex == Index) { //if the node index is the current index -> returns the data
+          return currentNode->data;
+        }
+        currentNode = currentNode->next;
+        currentIndex++; //increment
+      }
+      if (currentIndex == Index) { //if loop reaches end, and the index is the last node -> returns data
+        return currentNode->data;
+      }
+      return NULL; //returns null if out of range
+    }
+
+
+
+    int IndexOf(int Data) { //returns the index of the first occurence of a number
+
+      if (head->data == Data) { //returns index if the data is at the first index 
+        return 0;
+      }
+
+      DoublyLinkedListNode* currentNode = head; //initializes the variables for the function
+      int currentIndex = 0;
+
+
+      while (currentNode->next != NULL) { //loops through the nodes 
+        if (currentNode->data == Data) { //if the node's data matches the input -> returns index
+          return currentIndex;
+        }
+        currentNode = currentNode->next;
+        currentIndex++; //increment
+      }
+      if (currentNode->data == Data) { //if loop reaches end, and the last node's data matches -> returns last index
+        return currentIndex;
+      }
+      return NULL; //returns null if out of range
+    
+    }
+
 };
 
 int main() {
   DoublyLinkedList newList = DoublyLinkedList ();
-  newList.Append(2);
-  newList.Append(7);
-  newList.Push(1);
-  newList.Insert(9, 1);
-  //newList.PrintList();
   return 0;
 }
