@@ -1,41 +1,41 @@
 #include <iostream>
 using namespace std;
-struct LinkedListNode {
+struct SinglyLinkedListNode {
   public: //node that the linked list conists of
     int data; //data in the list
-    LinkedListNode* next; // memory address of the next node in the list
-    LinkedListNode () { //makes an empty node if no data passed 
+    SinglyLinkedListNode* next; // memory address of the next node in the list
+    SinglyLinkedListNode () { //makes an empty node if no data passed 
       this->data = NULL;
       this->next = NULL;
     }    
-    LinkedListNode (int Data) { //if data specified sets it to the node's data
+    SinglyLinkedListNode (int Data) { //if data specified sets it to the node's data
       this->data = Data;
       this->next = NULL;
     }
 };
-class LinkedList {
+class SinglyLinkedList {
   public:
     //INITIALIZATION
-    LinkedListNode* head; //memory address of the first node in the list
+    SinglyLinkedListNode* head; //memory address of the first node in the list
 
-    LinkedList () {
+    SinglyLinkedList () {
       this->head = NULL; //makes an empty list if no node ptr is passed as argument
     }
-    LinkedList (LinkedListNode* Head) { //if node ptr passed as an argument -> set to head (first item)
+    SinglyLinkedList (SinglyLinkedListNode* Head) { //if node ptr passed as an argument -> set to head (first item)
       head = Head;
     }
 
 
 
     void Append(int Data) { //
-      LinkedListNode* newNode = new LinkedListNode(Data); //makes a node with the data passed to the function
+      SinglyLinkedListNode* newNode = new SinglyLinkedListNode(Data); //makes a node with the data passed to the function
 
       if (head == NULL) { //checks if list empty -> sets new node as the head
         this->head = newNode;
         return;
       }
 
-      LinkedListNode* currentNode = head; //makes a temporary pointer to loop through all nodes
+      SinglyLinkedListNode* currentNode = head; //makes a temporary pointer to loop through all nodes
       while (currentNode->next != NULL) { //loops thorugh the nodes until reaches the end
         currentNode = currentNode->next; //moves to next node
       }
@@ -48,7 +48,7 @@ class LinkedList {
         return;
       }
 
-      LinkedListNode* currentNode = head; //temp ptr to loop through all nodes
+      SinglyLinkedListNode* currentNode = head; //temp ptr to loop through all nodes
       cout << currentNode->data << endl; //prints head
       while (currentNode->next != NULL) { //loops until last node
         currentNode = currentNode->next; //moves to next node
@@ -61,9 +61,9 @@ class LinkedList {
       if (head == NULL) { //checks if list empty -> exits (nothing can be deleted)
         return;
       }
-      LinkedListNode* delNode; //node to be deleted
+      SinglyLinkedListNode* delNode; //node to be deleted
 
-      LinkedListNode* currentNode = head; //temp ptr to loop trough nodes
+      SinglyLinkedListNode* currentNode = head; //temp ptr to loop trough nodes
       int currentIndex = 0; //keeps track of current index for comparison to index passed to func
       if (rmIndex == 0) { 
         delNode = head;
@@ -85,8 +85,8 @@ class LinkedList {
 
 
     void Insert(int Data, int index) { //INSERTS A NEW NODE TO A SPECIFIED INDEX (everything shifted, not deleted)
-      LinkedListNode* newNode = new LinkedListNode(Data); //ptr of the new node
-      LinkedListNode* tempAddr; 
+      SinglyLinkedListNode* newNode = new SinglyLinkedListNode(Data); //ptr of the new node
+      SinglyLinkedListNode* tempAddr; 
       if (head==NULL && index == 0) { //checks if list empty and inserting to first place
         head = newNode; 
         return;
@@ -98,7 +98,7 @@ class LinkedList {
         return;
       }
 
-      LinkedListNode* currentNode = head; //temp ptr to loop trough nodes
+      SinglyLinkedListNode* currentNode = head; //temp ptr to loop trough nodes
       int currentIndex = 0; //keeps track of current index for comparison to index passed to func
       while (currentNode->next != NULL) { //loops trough
         if (currentIndex == index - 1) { //checks if index of next node is the desired index
@@ -119,15 +119,64 @@ class LinkedList {
         return 0;
       }
       int count = 1; //count is 1 because there is atleast 1 item in list if gets past last if statement
-      LinkedListNode* currentNode = head; //temp ptr to loop trough nodes
+      SinglyLinkedListNode* currentNode = head; //temp ptr to loop trough nodes
       while (currentNode->next != NULL) { //loops through list
         count++; //adds 1 to len
         currentNode = currentNode->next; //moves to next node
       }
       return count;
     }
+
+    int GetItem(int Index) { //returns the data at a given index
+      if (Index == 0) { //returns the head if index is 0 before initializing the function
+        return head->data;
+      }
+
+      SinglyLinkedListNode* currentNode = head;
+      int currentIndex = 0; //initializes the variables for the function
+
+
+      while (currentNode->next != NULL) { //loops through the nodes 
+        if (currentIndex == Index) { //if the node index is the current index -> returns the data
+          return currentNode->data;
+        }
+        currentNode = currentNode->next;
+        currentIndex++; //increment
+      }
+      if (currentIndex == Index) { //if loop reaches end, and the index is the last node -> returns data
+        return currentNode->data;
+      }
+      return NULL; //returns null if out of range
+    }
+
+
+
+    int IndexOf(int Data) { //returns the index of the first occurence of a number
+
+      if (head->data == Data) { //returns index if the data is at the first index 
+        return 0;
+      }
+
+      SinglyLinkedListNode* currentNode = head; //initializes the variables for the function
+      int currentIndex = 0;
+
+
+      while (currentNode->next != NULL) { //loops through the nodes 
+        if (currentNode->data == Data) { //if the node's data matches the input -> returns index
+          return currentIndex;
+        }
+        currentNode = currentNode->next;
+        currentIndex++; //increment
+      }
+      if (currentNode->data == Data) { //if loop reaches end, and the last node's data matches -> returns last index
+        return currentIndex;
+      }
+      return NULL; //returns null if out of range
+    
+    }
+
 };
 int main() {
-  LinkedList newlist = LinkedList();
+  SinglyLinkedList newlist = SinglyLinkedList();
   return 0;
 }
