@@ -25,7 +25,11 @@ class SinglyLinkedList {
       head = Head;
     }
 
-
+    void Push(int Data) {
+      SinglyLinkedListNode* newNode = new SinglyLinkedListNode (Data);
+      newNode->next = head;
+      head = newNode;
+    }
 
     void Append(int Data) { //
       SinglyLinkedListNode* newNode = new SinglyLinkedListNode(Data); //makes a node with the data passed to the function
